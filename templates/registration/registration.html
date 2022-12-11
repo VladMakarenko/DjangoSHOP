@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %} Зарегистрироваться {% endblock %}
+
+
+{% block content %}
+    <div class="container" style="display: flex; align-items: center; margin-left: 40%">
+    <form class="p-md-4 border rounded-3 bg-light" action="" method="post">
+        <h2>Регистрация</h2>
+        {% csrf_token %}
+        <table>
+            {{ form }}
+        </table>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Зарегистрироваться</button>
+    </form>
+    </div>
+{% endblock %}
