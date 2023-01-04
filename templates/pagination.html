@@ -1,0 +1,11 @@
+<div class="pagination">
+    {% if paginator.page_range|length > 1 %}
+        {% for page in paginator.page_range %}
+            {% if page == page_obj.number %}
+                <a class="current" href="?page={{ page_obj.number }}">_{{ page_obj.number }}_</a>
+            {% else %}
+                <a class="not_current" href="?page={{ page }}">_{{ page }}_</a>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</div>

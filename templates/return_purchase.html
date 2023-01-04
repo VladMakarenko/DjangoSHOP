@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Возвращенный товар{% endblock %}
+{% block content %}
+    <div class="list">
+    <h2>Возвращенный товар</h2>
+    {% for return in  object_list %}
+        <div>
+            <span>ID: {{ return.id }}</span>
+            <span>Дата: {{ return.date }}</span>
+            <span>Товар: {{ return }} {{ return.purchase.product.description }}</span>
+            <span>Сумма возмещения: {{ return.purchase.purchase_amount }} $</span>
+            {% if user.is_superuser %}
+                <span>Пользователь: {{ return.purchase.customer }}</span>
+                <form action="{% url 'delete_return' return.id %}" method="post">
+                    {% csrf_token %}
+                    <button class="reject" type="submit">Reject</button>
+                </form>
+                <form action="{% url 'delete_purchase' return.purchase.id %}" method="post">
+                    {% csrf_token %}
+                    <button class="confirm" type="submit"><span>Confirm</span></button>
+                </form>
+            {% endif %}
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

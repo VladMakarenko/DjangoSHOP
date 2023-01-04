@@ -19,16 +19,31 @@
         </a>
 
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="/" class="nav-link px-2 link-secondary">На главную</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">Корзина</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
+            {% if user.is_superuser or user.is_staff %}
+                <li><a href="/" class="nav-link px-2 link-secondary">На главную</a></li>
+                <li><a href="{% url 'returns' %}" class="nav-link px-2 link-dark">Возвраты</a></li>
+                <li><a href="{% url 'purchases' %}" class="nav-link px-2 link-dark">Список покупок</a></li>
+            {% elif user.is_authenticated %}
+                <li><a href="/" class="nav-link px-2 link-secondary">На главную</a></li>
+                <li><a href="{% url 'purchases' %}" class="nav-link px-2 link-dark">Корзина</a></li>
+                <li><a href="{% url 'returns' %}" class="nav-link px-2 link-dark">Возвраты</a></li>
+            {% endif %}
+
         </ul>
 
         <div class="col-md-3 text-end">
 
             {% if user.is_authenticated %}
+                <div class="card col-md-6"
+                     style="display: block; margin-top: auto; margin-left: 24%; text-align: center">
+                    <h6>{{ user.username }}</h6>
+                    {{ user.wallet }} UAH
+                </div>
+                {% if user.is_superuser or user.is_staff %}
+                    <a href="{% url 'add_product' %}">
+                        <button type="button" class="btn btn-outline-primary me-2">Добавить товар</button>
+                    </a>
+                {% endif %}
                 <a href="{% url 'logout' %}">
                     <button type="button" class="btn btn-primary">Выход</button>
                 </a>
@@ -44,10 +59,12 @@
     </header>
 </head>
 <body>
+{% include 'messages.html' %}
 {% block content %}
 
+
 {% endblock %}
-</body>
+{% include "pagination.html" with page=products %}</body>
 </html>
 
 

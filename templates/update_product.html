@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Изменение товара{% endblock %}
+{% block content %}
+    <div class="main_form">
+    <h2>Измените товар</h2>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Изменить</button>
+    </form>
+    </div>
+{% endblock %}

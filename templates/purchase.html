@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Покупки{% endblock %}
+{% block content %}
+    <div class="list">
+    <h2>Покупки</h2>
+    {% for purchase in page_obj %}
+        <div>
+            <span>Товар: {{ purchase }} {{ purchase.product.description }}</span>
+            <span>К-во.: {{ purchase.quantity }}</span>
+            <span>Общая цена: {{ purchase.purchase_amount }} $</span>
+            {% if user.is_superuser %}
+                <span>ID покупки: {{ purchase.id }}</span>
+                <span>Пользователь: {{ purchase.customer }}</span>
+            {% else %}
+                {% if not purchase.returnpurchase %}
+                <form action="{% url 'add_return' purchase.id %}" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="return" type="submit" ><span>Return</span></button>
+                </form>
+                    {% else %}
+                    <h3>Запрос на возврат</h3>
+                {% endif %}
+            {% endif %}
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}
